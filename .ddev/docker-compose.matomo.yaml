@@ -1,0 +1,25 @@
+services:
+  matomo:
+    image: matomo
+    container_name: ddev-${DDEV_SITENAME}-matomo
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    restart: "always"
+    links:
+      - db
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - VIRTUAL_HOST=matomo.$DDEV_HOSTNAME
+      - HTTPS_EXPOSE=443:80
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=matomo
+      - MATOMO_DATABASE_HOST=db
+      - MATOMO_DATABASE_ADAPTER=myslqi
+      - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+      - MATOMO_DATABASE_USERNAME=root
+      - MATOMO_DATABASE_PASSWORD=root
+      - MATOMO_DATABASE_DBNAME=matomo
+    depends_on:
+      - db # Assuming you have a database service defined in your project
